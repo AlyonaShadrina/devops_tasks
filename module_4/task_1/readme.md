@@ -7,3 +7,13 @@ Will run on Windows and Linux.
 ```
 ./watchdf.sh <number>
 ```
+
+# Count files in provided directories
+The script counts the number of files that exist in each given directory and its subdirectories. 
+
+The default directory is current directory. 
+
+Will run on Windows and Linux.
+```
+./count_files.sh <path_to_directory> <path_to_directory>
+```
