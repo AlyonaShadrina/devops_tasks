@@ -70,8 +70,14 @@ find () {
     echo "User not found.";
   fi
 }
+
+inverseParam="$2"
 list () {
-  echo "list called"
+  if [[ $inverseParam == "--inverse" ]]; then
+    cat --number $filePath | tac;
+  else
+    cat --number $filePath
+  fi
 }
 help () {
   echo "Available commands:"
