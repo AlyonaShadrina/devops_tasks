@@ -1,14 +1,13 @@
-# TODO: add full description
-declare -A COMMANDS_HELP
-COMMANDS_HELP[add]="add help"
-COMMANDS_HELP[backup]="backup help"
-COMMANDS_HELP[restore]="restore help"
-COMMANDS_HELP[find]="find help"
-COMMANDS_HELP[list]="list help"
-
 typeset fileName=users.db
 typeset fileDir=../data
 typeset filePath=$fileDir/$fileName
+
+declare -A COMMANDS_HELP
+COMMANDS_HELP[add]="Adds a new line to the users.db"
+COMMANDS_HELP[backup]="Creates a new file, named $filePath.backup which is a copy of current $fileName"
+COMMANDS_HELP[restore]="Replaces contnent of $filePath with latest $filePath.backup"
+COMMANDS_HELP[find]="Prompts user to type a username, then prints username and role if such exists in users.db."
+COMMANDS_HELP[list]="Prints contents of users.db in format: N. username, role"
 
 check_table () {
   if [[ ! -f $filePath ]];
@@ -87,7 +86,10 @@ help () {
   done
 }
 
-if [[ $(type -t "$1") == function ]]; then
+
+if [[ $1 == help ]]; then
+  help
+elif [[ $(type -t "$1") == function ]]; then
   check_table
   echo "$($1)"
 else 
