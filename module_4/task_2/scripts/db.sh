@@ -60,7 +60,15 @@ restore () {
   echo "Backup is restored from $backupFileName"
 }
 find () {
-  echo "find called"
+  read -p "username: " username
+
+  result="$(grep $username $filePath)"
+
+  if [[ $result ]]; then
+    echo "$result";
+  else
+    echo "User not found.";
+  fi
 }
 list () {
   echo "list called"
