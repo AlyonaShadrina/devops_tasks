@@ -24,16 +24,27 @@ check_table () {
       fi
   fi
 }
+validate_latin () {
+  if ! [[ $1 =~ ^[A-Za-z_]+$ ]]; then 
+    echo "must be latin letters only"
+    exit 1
+  fi
+}
 add () {
-  echo "add called"
-  # TODO: Add validation
   read -p "Enter user name: " username
-  read -p "Enter user role: " role
+  validate_latin $username
 
-  echo "${username}, ${role}" | tee -a $filePath
+  read -p "Enter user role: " role
+  validate_latin $role
+
+  echo "Added: ${username}, ${role}" | tee -a $filePath
 }
 backup () {
-  echo "backup called"
+  backupFileName=$(date +'%Y-%m-%d-%H-%M-%S-%s')-users.db.backup
+  cp $filePath $fileDir/$backupFileName
+
+  echo "New backup is created"
+  echo "$fileDir/$backupFileName"
 }
 find () {
   echo "find called"
