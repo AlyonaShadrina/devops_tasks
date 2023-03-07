@@ -2,6 +2,7 @@
 declare -A COMMANDS_HELP
 COMMANDS_HELP[add]="add help"
 COMMANDS_HELP[backup]="backup help"
+COMMANDS_HELP[restore]="restore help"
 COMMANDS_HELP[find]="find help"
 COMMANDS_HELP[list]="list help"
 
@@ -37,14 +38,26 @@ add () {
   read -p "Enter user role: " role
   validate_latin $role
 
-  echo "Added: ${username}, ${role}" | tee -a $filePath
+  echo "${username}, ${role}" | tee -a $filePath
 }
 backup () {
-  backupFileName=$(date +'%Y-%m-%d-%H-%M-%S-%s')-users.db.backup
+  backupFileName=$(date +'%Y-%m-%d-%H-%M-%S-%s')-$fileName.backup
   cp $filePath $fileDir/$backupFileName
 
   echo "New backup is created"
   echo "$fileDir/$backupFileName"
+}
+restore () {
+  backupFileName="$(ls $fileDir/*-$fileName.backup | tail -n 1)"
+
+  if ! [[ -f $backupFileName ]]; then
+    echo "No backup file found."
+    exit 1
+  fi
+
+  cat $backupFileName > $filePath
+
+  echo "Backup is restored from $backupFileName"
 }
 find () {
   echo "find called"
