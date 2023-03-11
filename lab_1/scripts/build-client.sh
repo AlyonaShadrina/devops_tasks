@@ -31,7 +31,7 @@ read -r -p "Provide path to project: " dirPath
 
 cd $dirPath
 echo "Starting installation of dependencies..."
-npm ci
+npm i
 echo "Starting $ENV_CONFIGURATION build..."
 ng build --configuration=$ENV_CONFIGURATION
 
@@ -41,9 +41,7 @@ cd ./dist
 ARCHIVE=./client-app.zip
 
 if [ -f "$ARCHIVE" ]; then
-  rm $ARCHIVE
-  echo "Old $ARCHIVE is removed."
+  rm $ARCHIVE && echo "Old $ARCHIVE is removed."
 fi
 
-zip -r client-app.zip app
-echo "New $ARCHIVE is created."
+zip -r client-app.zip app && echo "New $ARCHIVE is created."
