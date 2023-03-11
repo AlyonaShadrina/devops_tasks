@@ -32,6 +32,7 @@ read -r -p "Provide path to project: " dirPath
 cd $dirPath
 echo "Starting installation of dependencies..."
 npm i
+npm install -g @angular/cli
 echo "Starting $ENV_CONFIGURATION build..."
 ng build --configuration=$ENV_CONFIGURATION
 
