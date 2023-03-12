@@ -23,19 +23,32 @@ fi
 JSON_CONTENT="$(cat $1)"
 
 remove_metadata () {
-  metadata="$(jq '. | .metadata'<<< $JSON_CONTENT)";
-  echo "$metadata"
+  metadata="$(jq '. | .metadata' <<< $JSON_CONTENT)";
 
-  if [ $metadata = 'null'  ]; then
+  if [ "$metadata" = 'null'  ]; then
     echo "There is no metadata to remove."
     exit
   fi
 
-  JSON_CONTENT="$(jq 'del(.metadata)'<<< $JSON_CONTENT)";
+  JSON_CONTENT="$(jq 'del(.metadata)' <<< $JSON_CONTENT)";
   echo "Metadata is removed"
 }
 
+increment_version () {
+  version="$(jq '. | .pipeline.version' <<< $JSON_CONTENT)";
+
+  if [ $version = 'null'  ]; then
+    echo "There is no version to increment"
+    exit
+  fi
+
+  newNumber=$(($version + 1))
+  JSON_CONTENT="$(jq --arg newVersion $newNumber '.pipeline.version = ($newVersion|tonumber)' <<< $JSON_CONTENT)";
+  echo "New version is $newNumber"
+}
+
 remove_metadata
+increment_version
 
 echo "$JSON_CONTENT"
 
