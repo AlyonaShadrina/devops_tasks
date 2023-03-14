@@ -51,7 +51,13 @@ increment_version () {
 
 # OPTS=$(getopt -o '' -a --longoptions 'configuration:,owner:,branch::,poll-for-source-changes::' -n "$0" -- "$@")
 OPTS=$(getopt -o '' -a --longoptions 'configuration:,owner:,branch:,poll-for-source-changes:' -n "$0" -- "$@")
+VALID_ARGUMENTS=$?
 eval set -- "$OPTS"
+
+if [ "$VALID_ARGUMENTS" != "0" ]; then
+  exit 1
+fi
+
 while true; do
   case "$1" in
     --configuration )
