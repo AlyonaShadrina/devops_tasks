@@ -4,16 +4,14 @@ APP_FOLDER="app"
 
 mkdir $APP_FOLDER
 
-git clone git@github.com:EPAM-JS-Competency-center/nestjs-rest-api.git $APP_FOLDER
+git clone -b feat/devops-cicd-lab git@github.com:EPAM-JS-Competency-center/nestjs-rest-api.git $APP_FOLDER
 
-git checkout feat/devops-cicd-lab
+DATE_NOW=$(date +"%Y-%m-%d-%H-%M-%S")
 
-# DATE_NOW=$(date +"%Y-%m-%d-%H-%M-%S")
+TAG="shaadrina/module-10-task-nestjs-rest-api:$DATE_NOW"
 
-# TAG="hub_user/react-dev:$DATE_NOW"
+docker build -t $TAG .
 
-# docker build -t $TAG .
+docker push $TAG
 
-# docker push $TAG
-
-# rm -rf $APP_FOLDER
+rm -rf $APP_FOLDER
